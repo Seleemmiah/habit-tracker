@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:habit_app/theme/dark_mode.dart';
-import 'package:habit_app/theme/light_mode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  // initally light mode
-  ThemeData _themeData = lightMode;
+  bool _isDarkMode = false;
 
-  // get current theme
-  ThemeData get themeData => _themeData;
+  bool get isDarkMode => _isDarkMode;
 
-  // is current dark mode
-  bool get isDarkMode => _themeData == darkMode;
+  // ThemeProvider() {
+  //   loadTheme();
+  // }
 
-  // set theme
-  set ThemeData(ThemeData themeData) {
-    _themeData = themeData;
-    notifyListeners(); // notify listeners to rebuild widgets that depend on this theme
+  void toggleTheme(bool value) async {
+    _isDarkMode = !_isDarkMode;
+    notifyListeners();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isDarkMode", _isDarkMode);
   }
 
-  // toggle theme
-  void toggleTheme() {
-    if (_themeData == lightMode) {
-      _themeData = darkMode;
-    } else {
-      _themeData = lightMode;
-    }
-    notifyListeners(); // notify listeners to rebuild widgets that depend on this theme
+  void loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isDarkMode = prefs.getBool("isDarkMode") ?? false;
+    notifyListeners();
   }
+
+  ThemeMode get themeMode => _isDarkMode ? ThemeMode.dark : ThemeMode.light;
 }

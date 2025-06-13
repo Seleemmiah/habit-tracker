@@ -4,19 +4,26 @@ import 'package:habit_app/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: const MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomePage());
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark(),
+            themeMode:
+                themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            home: HomePage(),
+          );
+        },
+      ),
+    );
   }
 }
