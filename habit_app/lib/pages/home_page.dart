@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode ? Colors.black : Colors.white,
+       backgroundColor: themeProvider.isDarkMode ? Colors.black : Colors.white,
       appBar: AppBar(
         backgroundColor: themeProvider.isDarkMode ? Colors.black : Colors.white,
         elevation: 0,
@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
             ),
             onPressed: () {
               themeProvider.toggleTheme(!themeProvider.isDarkMode);
+              
             },
           ),
         ],
